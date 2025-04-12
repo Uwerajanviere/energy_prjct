@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../provider/auth_provider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import '../../provider/auth_provider.dart' as myAuth; // <-- alias added
+import '../home_screen.dart'; // update path if needed
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -16,10 +19,18 @@ class _LoginScreenState extends State<LoginScreen> {
     final password = passwordController.text.trim();
 
     try {
-      await Provider.of<AuthProvider>(context, listen: false)
-          .login(email, password);
+      await Provider.of<myAuth.AuthProvider>(context, listen: false).login(email, password);
 
-      Navigator.pushReplacementNamed(context, '/home');
+      final uid = FirebaseAuth.instance.currentUser!.uid;
+      final userDoc = await FirebaseFirestore.instance.collection('users').doc(uid).get();
+      final userType = userDoc['userType'];
+
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (_) => HomeScreen(isInvestor: userType == 'investor'),
+        ),
+      );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Login failed. Please try again.')),

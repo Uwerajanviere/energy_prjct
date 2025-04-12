@@ -17,6 +17,7 @@ class Project {
     required this.currentAmount,
   });
 
+  // Convert to Firestore-friendly map
   Map<String, dynamic> toMap() {
     return {
       'id': id,
@@ -29,6 +30,7 @@ class Project {
     };
   }
 
+  // Create a Project from Firestore map
   factory Project.fromMap(Map<String, dynamic> map) {
     return Project(
       id: map['id'],
@@ -36,8 +38,8 @@ class Project {
       description: map['description'],
       type: map['type'],
       location: map['location'],
-      goalAmount: map['goalAmount'],
-      currentAmount: map['currentAmount'],
+      goalAmount: (map['goalAmount'] as num).toDouble(),
+      currentAmount: (map['currentAmount'] as num).toDouble(),
     );
   }
 }

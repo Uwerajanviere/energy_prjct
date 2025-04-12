@@ -4,13 +4,13 @@ import 'upload_project_screen.dart';
 class HomeScreen extends StatelessWidget {
   final bool isInvestor;
 
-  const HomeScreen({Key? key, this.isInvestor = true}) : super(key: key);
+  const HomeScreen({Key? key, this.isInvestor = false}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Renewable Energy Investment'),
+        title: Text('Renewable Energy Investment platform'),
         actions: [
           IconButton(
             icon: Icon(Icons.logout),
@@ -29,7 +29,7 @@ class InvestorView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Text("Investor View - List of Projects will appear here"),
+      child: Text("Investor View - List of Projects will appear here!"),
     );
   }
 }

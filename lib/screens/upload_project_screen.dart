@@ -33,6 +33,7 @@ class _UploadProjectScreenState extends State<UploadProjectScreen> {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Project Uploaded!")));
       Navigator.pop(context);
     }
+
   }
 
   @override
