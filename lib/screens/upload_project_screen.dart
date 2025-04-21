@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 import '../models/project_model.dart';
 import '../services/database_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import '../screens/MyProjectsScreen.dart'; //
+
 
 class UploadProjectScreen extends StatefulWidget {
   @override
@@ -20,21 +23,34 @@ class _UploadProjectScreenState extends State<UploadProjectScreen> {
 
   void _submit() async {
     if (_formKey.currentState!.validate()) {
-      final newProject = Project(
-        id: Uuid().v4(),
-        title: _titleController.text,
-        description: _descController.text,
-        type: _selectedType,
-        location: _locationController.text,
-        goalAmount: double.parse(_goalAmountController.text),
-        currentAmount: 0,
-      );
-      await _dbService.uploadProject(newProject);
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Project Uploaded!")));
-      Navigator.pop(context);
-    }
+      final user = FirebaseAuth.instance.currentUser;
 
+      if (user != null) {
+        final newProject = Project(
+          id: Uuid().v4(),
+          title: _titleController.text,
+          description: _descController.text,
+          type: _selectedType,
+          location: _locationController.text,
+          goalAmount: double.parse(_goalAmountController.text),
+          currentAmount: 0,
+          ownerEmail: user.email ?? '',
+          ownerId: user.uid,
+        );
+
+        await _dbService.uploadProject(newProject);
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Project Uploaded!")),
+        );
+
+        // Redirect to the list of their own projects
+        Navigator.pushReplacementNamed(context, '/ownerDashboard');
+      }
+    }
   }
+
+
 
   @override
   Widget build(BuildContext context) {

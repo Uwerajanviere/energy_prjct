@@ -6,6 +6,8 @@ class Project {
   final String location;
   final double goalAmount;
   final double currentAmount;
+  final String ownerEmail;
+  final String ownerId;
 
   Project({
     required this.id,
@@ -15,6 +17,8 @@ class Project {
     required this.location,
     required this.goalAmount,
     required this.currentAmount,
+    required this.ownerEmail,
+    required this.ownerId,
   });
 
   // Convert to Firestore-friendly map
@@ -27,6 +31,8 @@ class Project {
       'location': location,
       'goalAmount': goalAmount,
       'currentAmount': currentAmount,
+      'ownerEmail': ownerEmail,
+      'ownerId': ownerId,
     };
   }
 
@@ -40,6 +46,8 @@ class Project {
       location: map['location'],
       goalAmount: (map['goalAmount'] as num).toDouble(),
       currentAmount: (map['currentAmount'] as num).toDouble(),
+      ownerEmail: map['ownerEmail'] ?? '',
+      ownerId: map['ownerId'] ?? '',
     );
   }
 }
