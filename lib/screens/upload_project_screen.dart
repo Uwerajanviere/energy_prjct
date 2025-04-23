@@ -45,7 +45,7 @@ class _UploadProjectScreenState extends State<UploadProjectScreen> {
         );
 
         // Redirect to the list of their own projects
-        Navigator.pushReplacementNamed(context, '/ownerDashboard');
+        Navigator.pushReplacementNamed(context, '/MyProjectsScreen');
       }
     }
   }
