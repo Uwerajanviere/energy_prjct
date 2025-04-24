@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-// Import your custom files
+// Import custom files
 import 'provider/auth_provider.dart';
 import 'screens/auth/login_screen.dart';
 import 'screens/auth/register_screen.dart';
@@ -49,7 +49,9 @@ class MyApp extends StatelessWidget {
         '/login': (context) => LoginScreen(),
         '/register': (context) => RegisterScreen(),
         '/home': (context) => HomeScreen(),
-        '/ownerDashboard': (context) => MyProjectsScreen(), // ✅ Added
+        '/my-projects': (context) => ProjectOwnerView(),
+
+        //
       },
     );
   }

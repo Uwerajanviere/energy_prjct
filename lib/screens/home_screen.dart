@@ -57,6 +57,8 @@ class InvestorView extends StatelessWidget {
   }
 }
 
+
+
 class ProjectOwnerView extends StatelessWidget {
   final _dbService = DatabaseService();
   final Color primaryColor = const Color(0xFF4CAF50);
@@ -66,7 +68,7 @@ class ProjectOwnerView extends StatelessWidget {
     final user = FirebaseAuth.instance.currentUser;
 
     if (user == null) {
-      return Center(
+      return const Center(
         child: Text(
           "User not logged in",
           style: TextStyle(fontSize: 16, color: Colors.red),
@@ -74,102 +76,264 @@ class ProjectOwnerView extends StatelessWidget {
       );
     }
 
-    return Column(
-      children: [
-        Expanded(
-          child: StreamBuilder<List<Project>>(
-            stream: _dbService.getProjectsByOwnerId(user.uid),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(child: CircularProgressIndicator());
-              }
-              if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                return Center(
-                  child: Text(
-                    "No projects uploaded yet.",
-                    style: TextStyle(fontSize: 16, color: Colors.black54),
-                  ),
-                );
-              }
+    return Scaffold(
+      backgroundColor: const Color(0xFFFFE0E0), // Light pink background
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
 
-              final projects = snapshot.data!;
-              return GridView.builder(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 4, // 4 items per row
-                  crossAxisSpacing: 8, // Smaller spacing between items
-                  mainAxisSpacing: 8, // Smaller spacing between items
-                  childAspectRatio: 0.75, // Adjusted to make the items smaller and balanced
+            /// --- Hero Section ---
+            Center(
+              child: Container(
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 40),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(24),
                 ),
-                itemCount: projects.length,
-                itemBuilder: (context, index) {
-                  final project = projects[index];
-                  return Card(
-                    margin: EdgeInsets.zero,
-                    elevation: 4,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Renewable Energy Investment",
+                      style: TextStyle(
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.grey[900],
+                      ),
                     ),
-                    color: Color(0xFFf4f8f7), // Soft grey background color
-                    child: InkWell(
-                      onTap: () {
-                        // Handle project tap if needed
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Icon(
-                              Icons.energy_savings_leaf,
-                              color: primaryColor,
-                              size: 30, // Smaller icon size
-                            ),
-                            const SizedBox(height: 4),
-                            Text(
-                              project.title,
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 14, // Smaller text for the title
-                                color: Colors.black87,
-                              ),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            const SizedBox(height: 2),
-                            Text(
-                              project.description,
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                fontSize: 12, // Smaller description text
-                                color: Colors.black54,
-                              ),
-                            ),
-                            const SizedBox(height: 4),
-                            Row(
+                    const SizedBox(height: 12),
+                    const Text(
+                      "Welcome to the Renewable Energy Investment Platform",
+                      style: TextStyle(
+                        fontStyle: FontStyle.italic,
+                        fontSize: 16,
+                        color: Colors.black87,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 24),
+                    const Text(
+                      "This platform connects renewable energy innovators like you with people and organizations ready to invest in clean, green projects "
+                          " Whether it's solar, wind, or hydro power—this is your space to shine, share your vision, and find the right backers.",
+                      style: TextStyle(
+                        fontSize: 15,
+                        height: 1.6,
+                        color: Colors.black87,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 40),
+
+            /// --- How It Helps Section ---
+            /// --- How It Helps Section (Updated Style) ---
+            Center(
+              child: Container(
+                width: double.infinity,
+                margin: const EdgeInsets.only(bottom: 32),
+                padding: const EdgeInsets.all(24),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black12,
+                      blurRadius: 10,
+                      offset: Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "How This App Helps You",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: primaryColor,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+
+                    /// Bullet 1
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: const [
+                        Icon(Icons.cloud_upload, color: Colors.green, size: 22),
+                        SizedBox(width: 10),
+                        Expanded(
+                          child: Text(
+                            "Upload your green energy project and showcase it to potential investors.",
+                            style: TextStyle(fontSize: 15, height: 1.5, color: Colors.black87),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 12),
+
+                    /// Bullet 2
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: const [
+                        Icon(Icons.visibility, color: Colors.green, size: 22),
+                        SizedBox(width: 10),
+                        Expanded(
+                          child: Text(
+                            "Get discovered by individuals and organizations looking to invest in eco-friendly ideas.",
+                            style: TextStyle(fontSize: 15, height: 1.5, color: Colors.black87),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 12),
+
+                    /// Bullet 3
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: const [
+                        Icon(Icons.bar_chart, color: Colors.green, size: 22),
+                        SizedBox(width: 10),
+                        Expanded(
+                          child: Text(
+                            "Track engagement and funding progress in real time.",
+                            style: TextStyle(fontSize: 15, height: 1.5, color: Colors.black87),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 12),
+
+                    /// Bullet 4
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: const [
+                        Icon(Icons.group, color: Colors.green, size: 22),
+                        SizedBox(width: 10),
+                        Expanded(
+                          child: Text(
+                            "Receive support from a global community passionate about sustainable development.",
+                            style: TextStyle(fontSize: 15, height: 1.5, color: Colors.black87),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+
+            /// --- Project List Header ---
+            Text(
+              "Your Uploaded Projects",
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+                color: Colors.grey[800],
+              ),
+            ),
+            const SizedBox(height: 16),
+
+            /// --- Projects Stream ---
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.65,
+              child: StreamBuilder<List<Project>>(
+                stream: _dbService.getProjectsByOwnerId(user.uid),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+
+                  if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                    return const Center(
+                      child: Text(
+                        "No projects uploaded yet.",
+                        style: TextStyle(fontSize: 16, color: Colors.black54),
+                      ),
+                    );
+                  }
+
+                  final projects = snapshot.data!;
+
+                  return GridView.builder(
+                    itemCount: projects.length,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: MediaQuery.of(context).size.width > 800 ? 4 : 2,
+                      crossAxisSpacing: 12,
+                      mainAxisSpacing: 12,
+                      childAspectRatio: 1.2,
+                    ),
+                    itemBuilder: (context, index) {
+                      final project = projects[index];
+
+                      return Card(
+                        color: const Color(0xFFC8F5CB),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                        elevation: 3,
+                        child: InkWell(
+                          borderRadius: BorderRadius.circular(16),
+                          onTap: () {
+                            // TODO: Handle project tap
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.all(12),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Icon(Icons.attach_money, size: 18, color: Colors.grey),
-                                SizedBox(width: 4),
+                                Icon(Icons.energy_savings_leaf, color: primaryColor, size: 28),
+                                const SizedBox(height: 8),
                                 Text(
-                                  "${project.goalAmount.toStringAsFixed(0)} RWF",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w600,
+                                  project.title,
+                                  style: const TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
                                     color: Colors.black87,
                                   ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                const SizedBox(height: 6),
+                                Text(
+                                  project.description,
+                                  style: const TextStyle(fontSize: 12, color: Colors.black54),
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                const Spacer(),
+                                Row(
+                                  children: [
+                                    const Icon(Icons.attach_money, size: 18, color: Colors.green),
+                                    const SizedBox(width: 4),
+                                    Text(
+                                      project.goalAmount.toStringAsFixed(0),
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 13,
+                                        color: Colors.black87,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
-                          ],
+                          ),
                         ),
-                      ),
-                    ),
+                      );
+                    },
                   );
                 },
-              );
-            },
-          ),
+              ),
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 }
